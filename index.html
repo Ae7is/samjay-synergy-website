@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Samjay Synergy Limited | Home Base</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      html { scroll-behavior: smooth; }
+      body {
+        background-color: #f8fafc;
+        color: #334155;
+        padding-top: 140px;
+        overflow-x: hidden;
+      }
+      a { text-decoration: none; }
+
+      /* NAV BAR */
+      nav.site-navbar {
+        background-color: #03071e;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+      }
+      .brand-block { text-align: center; }
+      .logo-text { font-weight: 800; font-size: 20px; letter-spacing: 0.5px; }
+      .logo-text span { color: #fbbf24; }
+      .rc-text { font-size: 9px; color: #94a3b8; font-family: monospace; }
+
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 32px;
+        height: 32px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1100;
+      }
+      .menu-toggle span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background-color: #fbbf24;
+        border-radius: 2px;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+      }
+      .menu-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .menu-toggle.open span:nth-child(2) { opacity: 0; }
+      .menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .nav-links.open { max-height: 300px; padding-top: 6px; }
+      .nav-links a {
+        color: #cbd5e1;
+        font-weight: 500;
+        font-size: 14px;
+        transition: color 0.2s;
+        padding: 6px 8px;
+      }
+      .nav-links a:hover, .nav-links a.active { color: #fbbf24; }
+      .nav-links a.active { font-weight: 700; border-bottom: 2px solid #fbbf24; }
+      .btn-contact {
+        color: #03071e !important;
+        background-color: #fbbf24;
+        padding: 8px 16px !important;
+        border-radius: 4px;
+        font-weight: 700 !important;
+        transition: transform 0.2s, background-color 0.2s;
+      }
+
+      /* HERO */
+      section.hero-banner {
+        background: linear-gradient(135deg, #0a1128 0%, #101f42 50%, #03071e 100%);
+        color: white;
+        padding: 50px 20px;
+        text-align: center;
+        border-bottom: 4px solid #fbbf24;
+      }
+      .hero-container { max-width: 800px; margin: 0 auto; }
+      .hero-container h1 { font-size: 26px; font-weight: 900; line-height: 1.3; margin-bottom: 12px; }
+      .hero-container h1 span { color: #fbbf24; }
+      .rc-badge {
+        display: inline-block;
+        background-color: rgba(30, 58, 138, 0.4);
+        color: #fbbf24;
+        font-family: monospace;
+        font-size: 11px;
+        padding: 4px 12px;
+        border-radius: 50px;
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        margin-bottom: 15px;
+      }
+      .motto-badge {
+        display: inline-block;
+        color: #fbbf24;
+        font-family: Georgia, serif;
+        font-style: italic;
+        font-size: 15px;
+        border-top: 1px solid rgba(251, 191, 36, 0.3);
+        border-bottom: 1px solid rgba(251, 191, 36, 0.3);
+        padding: 6px 16px;
+        margin-top: 10px;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+      main.overview-wrapper { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+      .pitch-block { text-align: center; max-width: 800px; margin: 0 auto 40px auto; }
+      .pitch-block h2 { font-size: 24px; font-weight: 800; color: #0a1128; margin-bottom: 10px; }
+      .heading-bar { height: 4px; width: 50px; background-color: #fbbf24; margin: 0 auto 15px auto; border-radius: 4px; }
+      .pitch-block p { font-size: 15px; color: #475569; line-height: 1.6; }
+
+      .strat-split-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+      .strat-card {
+        background-color: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        border-top: 4px solid #0a1128;
+        text-align: center;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .strat-card.mission-card { border-top-color: #fbbf24; }
+      .strat-card h3 { font-size: 18px; color: #0a1128; font-weight: 700; margin-bottom: 10px; }
+      .strat-card p { font-size: 14px; color: #475569; line-height: 1.6; }
+
+      .routing-panel {
+        background-color: #eff6ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        padding: 25px;
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      .routing-panel h3 { font-size: 18px; color: #0a1128; margin-bottom: 6px; }
+      .routing-panel p { font-size: 14px; color: #475569; margin-bottom: 15px; }
+      .action-btns-row { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+      .route-btn {
+        padding: 12px 24px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 14px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .route-btn.primary-gold { background-color: #fbbf24; color: #03071e; }
+      .route-btn.secondary-blue { border: 1px solid #0a1128; color: #0a1128; }
+
+      /* GALLERY SECTION */
+      .gallery-section { text-align: center; margin-bottom: 30px; position: relative; }
+      .gallery-section h2 { font-size: 24px; font-weight: 800; color: #0a1128; margin-bottom: 10px; }
+      .gallery-section > p { font-size: 14px; color: #475569; margin-bottom: 20px; }
+
+      .gallery-scroll {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 4px 20px 4px;
+        scrollbar-width: thin;
+      }
+      .gallery-scroll::-webkit-scrollbar { height: 6px; }
+      .gallery-scroll::-webkit-scrollbar-thumb { background: #fbbf24; border-radius: 4px; }
+
+      .gallery-item {
+        flex: 0 0 80%;
+        scroll-snap-align: center;
+        height: 220px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease;
+        background-color: #e2e8f0;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .gallery-counter {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 6px;
+        margin-bottom: 20px;
+        font-family: monospace;
+      }
+
+      .gallery-cta {
+        display: inline-block;
+        margin-top: 10px;
+        background-color: #0a1128;
+        color: white;
+        padding: 14px 30px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 14px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
+
+      /* FOOTER */
+      footer.site-footer {
+        background-color: #03071e;
+        color: #cbd5e1;
+        padding: 40px 20px 20px 20px;
+        border-top: 4px solid #fbbf24;
+        text-align: center;
+      }
+      .footer-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 20px;
+      }
+      .footer-col h4 { color: white; font-size: 13px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+      .footer-col p { font-size: 13px; line-height: 1.6; color: #94a3b8; }
+      .copyright-bar {
+        margin-top: 15px;
+        font-size: 11px;
+        color: #64748b;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      /* DESKTOP */
+      @media (min-width: 769px) {
+        body { padding-top: 80px; }
+        .menu-toggle { display: none; }
+        .nav-container { flex-direction: row; height: 80px; padding: 0 20px; }
+        .brand-block { text-align: left; }
+        .nav-links {
+          flex-direction: row;
+          gap: 25px;
+          max-height: none;
+          overflow: visible;
+          width: auto;
+        }
+        .nav-links a { font-size: 14px; }
+        .hero-container h1 { font-size: 42px; }
+        .strat-split-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+        .strat-card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+        .action-btns-row { flex-direction: row; justify-content: center; gap: 15px; }
+        .route-btn { width: auto; }
+        .route-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
+        .btn-contact:hover { transform: translateY(-2px); }
+        .gallery-item { flex: 0 0 23%; height: 220px; }
+        .gallery-item:hover { transform: translateY(-6px) scale(1.02); }
+        .gallery-cta:hover { transform: translateY(-3px); background-color: #03071e; }
+        .footer-grid { grid-template-columns: repeat(3, 1fr); text-align: left; }
+        .copyright-bar { flex-direction: row; justify-content: space-between; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav class="site-navbar">
+      <div class="nav-container">
+        <div class="brand-block">
+          <div class="logo-text">SAMJAY <span>SYNERGY</span></div>
+          <div class="rc-text">LIMITED • RC: 9526860</div>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+          <a href="index.html" class="active">Home</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html" class="btn-contact">Contact Us</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero-banner">
+      <div class="hero-container">
+        <div class="rc-badge">RC Number: 9526860</div>
+        <h1>SAMJAY <span>SYNERGY LIMITED</span></h1>
+        <div class="motto-badge">"We Create From Concept to Comfort"</div>
+      </div>
+    </section>
+
+    <main class="overview-wrapper">
+
+      <div class="pitch-block fade-in">
+        <h2>Corporate Profile Summary</h2>
+        <div class="heading-bar"></div>
+        <p>
+          SAMJAY SYNERGY LIMITED is a professional and innovative company specializing in Interior & Exterior Décor, Facility Enhancement, and Property Improvement Solutions. We are committed to transforming residential, commercial, corporate, and industrial spaces into beautiful, functional, comfortable, and modern environments.
+        </p>
+      </div>
+
+      <div class="strat-split-grid fade-in">
+        <div class="strat-card">
+          <h3>Our Vision</h3>
+          <p>To become a leading and trusted provider of innovative interior, exterior, and facility improvement solutions, recognized for quality, creativity, reliability, and customer satisfaction.</p>
+        </div>
+        <div class="strat-card mission-card">
+          <h3>Our Mission</h3>
+          <p>To transform spaces and improve facilities through professional craftsmanship, innovative designs, quality materials, and exceptional customer service, while delivering value for every investment.</p>
+        </div>
+      </div>
+
+      <div class="routing-panel fade-in">
+        <h3>Explore Our Corporate Hub</h3>
+        <p>Learn more about our expertise, our story, or get in touch for a project quotation.</p>
+        <div class="action-btns-row">
+          <a href="services.html" class="route-btn primary-gold">Our Services</a>
+          <a href="about.html" class="route-btn secondary-blue">About Us</a>
+        </div>
+      </div>
+
+      <div class="gallery-section fade-in">
+        <h2>Our Work in Motion</h2>
+        <p>Swipe through a glimpse of our recent projects</p>
+        <div class="gallery-scroll" id="gallery"></div>
+        <div class="gallery-counter" id="galleryCounter"></div>
+        <a href="contact.html" class="gallery-cta">Get a Free Quotation</a>
+      </div>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <p style="color: white; font-weight: 800; font-size: 16px; margin-bottom: 10px;">SAMJAY <span style="color:#fbbf24;">SYNERGY</span></p>
+          <p>Professional craftsmanship and innovative designs built to deliver absolute value for every investment.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <p><a href="index.html" style="color:#94a3b8;">Home</a><br>
+             <a href="services.html" style="color:#94a3b8;">Services</a><br>
+             <a href="about.html" style="color:#94a3b8;">About</a><br>
+             <a href="contact.html" style="color:#94a3b8;">Contact</a></p>
+        </div>
+        <div class="footer-col">
+          <h4>Direct Support</h4>
+          <p>08146877503<br>08142387752<br>09065557451<br>07032230702</p>
+        </div>
+      </div>
+      <div class="copyright-bar">
+        <span>&copy; 2025 Samjay Synergy Limited. All rights reserved.</span>
+        <span>RC: 9526860</span>
+      </div>
+    </footer>
+
+    <script>
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        menuToggle.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', isOpen);
+      });
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          menuToggle.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+      /* ===== DYNAMIC GALLERY: samjay1 ... samjay40 ===== */
+      const galleryContainer = document.getElementById('gallery');
+      const galleryCounter = document.getElementById('galleryCounter');
+      const totalPhotos = 40;
+      const ext = 'jpg'; // change to 'png' if your files are PNG
+      const folder = '/images/gallery/';
+
+      for (let i = 1; i <= totalPhotos; i++) {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        const img = document.createElement('img');
+        img.src = `${folder}samjay${i}.${ext}`;
+        img.alt = `Samjay Synergy project photo ${i}`;
+        img.loading = 'lazy';
+        item.appendChild(img);
+        galleryContainer.appendChild(item);
+      }
+      galleryCounter.textContent = `${totalPhotos} photos — swipe to view`;
+    </script>
+  </body>
+</html>
